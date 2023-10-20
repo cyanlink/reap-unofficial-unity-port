@@ -12,10 +12,10 @@ public class TimeController : MonoBehaviour {
     public Image mask;
     public Image overlay;
 
-    float time;
-    float time_speed;
-    float view_radius;
-    float dying_fadeout;
+    private float time;
+    private float time_speed;
+    private float view_radius;
+    private float dying_fadeout;
 
     // References.
     [HideInInspector]
@@ -24,7 +24,10 @@ public class TimeController : MonoBehaviour {
     GameController gameController;
     ItemController items;
 
+    [SerializeField]
+    Material circleMaskPrefab;
     Material maskMaterialInstance;
+    private static readonly int Radius = Shader.PropertyToID("_Radius");
 
     void Awake() {
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
@@ -35,7 +38,11 @@ public class TimeController : MonoBehaviour {
         time = 0;
         time_speed = 1f / 45;
 
-        maskMaterialInstance = Instantiate(mask.material);
+        maskMaterialInstance = Instantiate(circleMaskPrefab);
+        maskMaterialInstance.renderQueue = mask.defaultMaterial.renderQueue;
+        mask.material = maskMaterialInstance;
+        
+        //mask.rectTransform.
     }
 
 	void Update () {
@@ -81,10 +88,11 @@ public class TimeController : MonoBehaviour {
         // Map the radius value which goes between 120 to 360 to 0.33 to 1
         // and pass it to the mask shader.
         float maskFloat = view_radius / 360;
-        maskMaterialInstance.SetFloat("_Radius", maskFloat);
-        maskMaterialInstance.renderQueue = mask.defaultMaterial.renderQueue;
-        mask.material = maskMaterialInstance;
-
+        // maskMaterialInstance.SetFloat(Radius, maskFloat);
+        // maskMaterialInstance.renderQueue = mask.defaultMaterial.renderQueue;
+        // mask.material = maskMaterialInstance;
+        mask.material.SetFloat(Radius, maskFloat);
+        
         DrawCircle();
 
         Color tempColor = overlay.color;
@@ -123,42 +131,45 @@ public class TimeController : MonoBehaviour {
         var _x = 0;
         var _y = 0;
 
+        var camPos = Camera.main.transform.position;
         dot1.position = new Vector3(
-            Camera.main.transform.position.x + Mathf.Round(_x + _r + 0.5f),
-            Camera.main.transform.position.y + Mathf.Round(_y),
+            camPos.x + Mathf.Round(_x + _r + 0.5f),
+            camPos.y + Mathf.Round(_y),
             0
         );
         dot2.position = new Vector3(
-            Camera.main.transform.position.x + Mathf.Round(_x - _r + 0.5f),
-            Camera.main.transform.position.y + Mathf.Round(_y),
+            camPos.x + Mathf.Round(_x - _r + 0.5f),
+            camPos.y + Mathf.Round(_y),
             0
         );
         dot3.position = new Vector3(
-            Camera.main.transform.position.x + Mathf.Round(_x),
-            Camera.main.transform.position.y + Mathf.Round(_y - _r + 0.5f),
+            camPos.x + Mathf.Round(_x),
+            camPos.y + Mathf.Round(_y - _r + 0.5f),
             0
         );
         dot4.position = new Vector3(
-            Camera.main.transform.position.x + Mathf.Round(_x),
-            Camera.main.transform.position.y + Mathf.Round(_y + _r + 0.5f),
+            camPos.x + Mathf.Round(_x),
+            camPos.y + Mathf.Round(_y + _r + 0.5f),
             0
         );
 
         // In GameMaker the sin and cos function takes an angle in degrees while in Unity they expect an angle in radians.
         sun.position = new Vector3(
-            Camera.main.transform.position.x + Mathf.Round(_x + _r * Mathf.Cos(_a * Mathf.Deg2Rad)),
-            Camera.main.transform.position.y + Mathf.Round(_y - _r * Mathf.Sin(_a * Mathf.Deg2Rad)),
+            camPos.x + Mathf.Round(_x + _r * Mathf.Cos(_a * Mathf.Deg2Rad)),
+            camPos.y + Mathf.Round(_y - _r * Mathf.Sin(_a * Mathf.Deg2Rad)),
             0
         );
     }
 
     void f_grow() {
-        for (int i = 0; i < items.soils.Count; i++) {
-            if (items.soils[i].GetComponent<Soil>().filled && items.soils[i].GetComponent<Soil>().stage < 3) {
-                items.soils[i].GetComponent<Soil>().mini_stage += Random.Range(0, 0.5f);
-                if (items.soils[i].GetComponent<Soil>().mini_stage > 1) {
-                    items.soils[i].GetComponent<Soil>().mini_stage = 0;
-                    items.soils[i].GetComponent<Soil>().stage++;
+        for (int i = 0; i < items.soils.Count; i++)
+        {
+            var soil = items.soils[i].GetComponent<Soil>();
+            if (soil.filled && soil.stage < 3) {
+                soil.mini_stage += Random.Range(0, 0.5f);
+                if (soil.mini_stage > 1) {
+                    soil.mini_stage = 0;
+                    soil.stage++;
                 }
             }
         }

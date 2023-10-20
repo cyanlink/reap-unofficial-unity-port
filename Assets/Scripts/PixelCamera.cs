@@ -16,18 +16,20 @@ public class PixelCamera : MonoBehaviour {
     public int baseHeight = 360;
     public MeshRenderer quad;
 
-    static RenderTexture renderTexture;
+    static RenderTexture _renderTexture;
 
     static void CreateNewRenderTexture(int width, int height) {
-        if (!renderTexture) {
-            renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32);
-            renderTexture.filterMode = FilterMode.Point;
+        if (!_renderTexture) {
+            _renderTexture = new RenderTexture(width, height, 0, RenderTextureFormat.ARGB32)
+            {
+                filterMode = FilterMode.Point
+            };
         }
     }
 
     void Update() {
         CreateNewRenderTexture(baseWidth, baseHeight);
-        SetRenderTexture(renderTexture);
+        SetRenderTexture(_renderTexture);
 
         int nearestWidth = Screen.width / baseWidth * baseWidth;
         int nearestHeight = Screen.height / baseHeight * baseHeight;
@@ -38,7 +40,9 @@ public class PixelCamera : MonoBehaviour {
         float heightRatio = (baseHeight * (float)scaleFactor) / Screen.height;
 
         quad.transform.localScale = new Vector3(baseWidth / (float)baseHeight * heightRatio, 1f * heightRatio, 1f);
-        pixelCameraRenderer.rect = new Rect(GetCameraRectOffset(Screen.width), GetCameraRectOffset(Screen.height), pixelCameraRenderer.rect.width, pixelCameraRenderer.rect.height);
+        Rect rect = pixelCamera.rect;
+        rect = new Rect(GetCameraRectOffset(Screen.width), GetCameraRectOffset(Screen.height), rect.width, rect.height);
+        pixelCameraRenderer.rect = rect;
     }
 
     void SetRenderTexture(RenderTexture renderTexture) {

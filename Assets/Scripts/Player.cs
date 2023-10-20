@@ -87,6 +87,7 @@ public class Player : MonoBehaviour {
     }
 
     void Start() {
+        
         uiController.player = this;
         timeController.player = this;
 

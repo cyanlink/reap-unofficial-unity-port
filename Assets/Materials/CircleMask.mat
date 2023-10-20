@@ -2,26 +2,37 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CircleMask
   m_Shader: {fileID: 4800000, guid: 166ada724c3fca84393d3c18d7136ba4, type: 3}
-  m_ShaderKeywords: 
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
-    - _Radius: 0.73584425
+    - _Radius: 0.48
     - _StrokeThickness: 0.005
     m_Colors:
-    - _Color: {r: 0.80392164, g: 0.7372549, b: 0.5568628, a: 1}
+    - _Color: {r: 0.8039216, g: 0.7372549, b: 0.5568628, a: 1}
+    - _NormalizedPosition: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _StrokeColor: {r: 0.16078432, g: 0.11764706, b: 0.09411765, a: 1}
+  m_BuildTextureStacks: []
