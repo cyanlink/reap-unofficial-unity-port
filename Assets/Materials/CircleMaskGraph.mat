@@ -56,6 +56,7 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     - _Radius: 0.48
+    - _StrokeThickness: 0.003
     m_Colors:
     - _BgColor: {r: 0.80392164, g: 0.7372549, b: 0.5568628, a: 1}
     - _CenterPos: {r: 0.5, g: 0.5, b: 0, a: 0}
@@ -63,7 +64,7 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _NormalizedPos: {r: 1, g: 1, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _StrokeColor: {r: 0, g: 0, b: 0, a: 0}
+    - _StrokeColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &2953156460008098810
 MonoBehaviour:
