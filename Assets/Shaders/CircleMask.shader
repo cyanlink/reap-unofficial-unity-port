@@ -56,10 +56,10 @@ Shader "Custom/CircleMask" {
                 i.uv.x *= aspect;//直接通过偏导数的比值求得uv宽高比，性能影响未知。。。
                 //float distance = sqrt(pow(i.uv.x, 2) + pow(i.uv.y,2)) * 2;
                 const float distance = length(i.uv);
-                if (distance < _Radius) {
+                if (distance < _Radius / 2) {
                     discard;
                 }
-                if (distance < (_Radius + _StrokeThickness)) {
+                if (distance < (_Radius/2 + _StrokeThickness)) {
                     return _StrokeColor;
                 }
                 return _Color;
